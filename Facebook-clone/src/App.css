@@ -1,0 +1,49 @@
+.App{
+  background-color: lightgray;
+}
+#app__headerImage {
+  height: 50px;
+  width: 220px;
+  margin: 10px;
+}
+.app__header {
+    object-fit: contain;
+    background-color: white;
+    padding: 15px;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: rgb(92, 92, 143); */
+}
+.app__signUpModal{
+  display: flex;
+  flex-direction: row;
+}
+.app__form{
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+#app__uploader{
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 20px;
+}
+#app__uploader Input{
+  padding: 10px;
+}
+#app__uploader Button{
+  max-width: fit-content;
+  margin-left: 40%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#app__uploader #file{
+  margin-bottom: 10px;
+  margin-left: 30%;
+}

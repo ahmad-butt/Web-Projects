@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/CSS/style.css">
+    <title>ROCK, PAPAER, SCISSOR</title>
+</head>
+<body>
+    <div class="container1">
+        <h1>Your Age in Days</h1>
+        <div id="ageContainer">
+            <div>
+                <button class="btn btn-primary" onclick="age()">"Click me"</button>
+            </div>
+            <div>
+                <button class="btn btn-danger" onclick="reset()">"Reset"</button>
+            </div>
+        </div>
+        <div id="ageContainer">
+            <div id="result"></div>
+        </div>
+    </div>
+    <div class="container2">
+        <h1>Cat Generator</h1>
+        <div id="gen">
+            <button class="btn btn-warning" onclick="generate()">Generate</button>
+        </div>
+        <div id="catimg"></div>
+    </div>
+    <div class="container3">
+        <h1>Rock Paper Scissor</h1>
+        <div id="game">
+            <img id = "rock" src="../Images/rock.png" onclick="game(this)">
+            <img id = "paper" src="../Images/paper.svg" onclick="game(this)">
+            <img id = "scissor" src="../Images/scissor.png" onclick="game(this)">
+        </div>
+        <div id="res"></div>
+        <div class="bt">
+            <button class="btn btn-danger" onclick="refresh()">"Reset"</button>
+        </div>
+    </div>
+    <script src="/JavaScript/home.js"></script>
+</body>
+</html>
