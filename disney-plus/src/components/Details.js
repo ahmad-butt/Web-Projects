@@ -149,4 +149,5 @@ const Description = styled.div`
     line-height: 1.4;
     font-size: 18px;
     color: rgb(249,249,249);
+    max-width: 700px;
 `
