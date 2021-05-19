@@ -1,39 +1,70 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { selectMovies } from '../features/movie/movieSlice'
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import db from '../firebase';
 
 function Details() {
+
+    const movies = useSelector(selectMovies);
+    
+    const [movie, setMovie] = useState({});
+
+    const { id } = useParams();
+    console.log(id);
+
+    useEffect(() => {
+        db.collection('movies')
+        .doc(id)
+        .get()
+        .then(doc=>{
+            if(doc.exists){
+                setMovie(doc.data());
+            }
+        }).catch(error=>{
+            alert(error.message);
+        })
+    }, [])
+
+    console.log(movie);
+
     return (
         <Container>
-            <Background>
-                <img src='https://www.hebergementwebs.com/image/8d/8de5da7db47bc50d65713bba0e4b0f5b.jpg/how-to-look-pixar-soul-on-disney-plus-ce-noel-6.jpg'/>
-            </Background>
-            <ImageTitle>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_Soul.png'/>
-            </ImageTitle>
-            <Controls>
-                <PlayButton>
-                    <img src='/images/play-icon-black.png'/>
-                    <span>PLAY</span>
-                </PlayButton>
-                <TrailerButton>
-                    <img src='/images/play-icon-white.png'/>
-                    <span>TRAILER</span>
-                </TrailerButton>
-                <AddButton>
-                    <span>+</span>
-                </AddButton>
-                <GroupButton>
-                    <img src='/images/group-icon.png'/>
-                </GroupButton>
-            </Controls>
-            <Subtitle>
-                2018 • 7m • Family, Fantasy, Kids, Animation
-            </Subtitle>
-            <Description>
-                A Chinese man who's sad wen her grown son leaves home gets anoher
-                chance at motherhood when one of her dumplings springs to life. But she finds
-                that nothing stays cute and small forever.
-            </Description>
+            {
+                movies && (
+                    <>
+                        <Background>
+                            <img src={movie.backgroundImg}/>
+                        </Background>
+                        <ImageTitle>
+                            <img src={movie.titleImg}/>
+                        </ImageTitle>
+                        <Controls>
+                            <PlayButton>
+                                <img src='/images/play-icon-black.png'/>
+                                <span>PLAY</span>
+                            </PlayButton>
+                            <TrailerButton>
+                                <img src='/images/play-icon-white.png'/>
+                                <span>TRAILER</span>
+                            </TrailerButton>
+                            <AddButton>
+                                <span>+</span>
+                            </AddButton>
+                            <GroupButton>
+                                <img src='/images/group-icon.png'/>
+                            </GroupButton>
+                        </Controls>
+                        <Subtitle>
+                            {movie.subTitle}
+                        </Subtitle>
+                        <Description>
+                            {movie.description}
+                        </Description>
+                    </>
+                )
+            }
         </Container>
     )
 }
@@ -61,10 +92,10 @@ const Background = styled.div`
     }
 `
 const ImageTitle = styled.div`
-    height: 30vh;
+    width: 400px;
     min-height: 170px;
-    width: 35vh;
     min-width: 200px;
+    margin-bottom: 10px;
 
     img {
         width: 100%;

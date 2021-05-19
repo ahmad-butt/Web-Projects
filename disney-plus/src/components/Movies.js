@@ -1,62 +1,25 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
+import { selectMovies } from '../features/movie/movieSlice'
+import { Link } from "react-router-dom";
 
 function Movies() {
+
+    const movies = useSelector(selectMovies);
+
     return (
         <Container>
             <h4>Recommended for You</h4>
             <Content>
-                <Wrap>
-                    <img src='https://thenerdy.com/wp-content/uploads/2019/08/star-wars-the-mandalorian-promo-poster-1280-featured-01-470x310@2x.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://thenerdy.com/wp-content/uploads/2019/08/star-wars-the-mandalorian-promo-poster-1280-featured-01-470x310@2x.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://thenerdy.com/wp-content/uploads/2019/08/star-wars-the-mandalorian-promo-poster-1280-featured-01-470x310@2x.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://thenerdy.com/wp-content/uploads/2019/08/star-wars-the-mandalorian-promo-poster-1280-featured-01-470x310@2x.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://thenerdy.com/wp-content/uploads/2019/08/star-wars-the-mandalorian-promo-poster-1280-featured-01-470x310@2x.jpg'/>
-                </Wrap>
-            </Content>
-            <h4>New to Disney+</h4>
-            <Content>
-                <Wrap>
-                    <img src='https://cdn.flickeringmyth.com/wp-content/uploads/2020/10/disney-pixar-soul-poster-disney-plus-header.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn.flickeringmyth.com/wp-content/uploads/2020/10/disney-pixar-soul-poster-disney-plus-header.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn.flickeringmyth.com/wp-content/uploads/2020/10/disney-pixar-soul-poster-disney-plus-header.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn.flickeringmyth.com/wp-content/uploads/2020/10/disney-pixar-soul-poster-disney-plus-header.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn.flickeringmyth.com/wp-content/uploads/2020/10/disney-pixar-soul-poster-disney-plus-header.jpg'/>
-                </Wrap>
-            </Content>
-            <h4>Originals</h4>
-            <Content>
-                <Wrap>
-                    <img src='https://cdn57.androidauthority.net/wp-content/uploads/2019/11/the-lion-king-1200x675.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn57.androidauthority.net/wp-content/uploads/2019/11/the-lion-king-1200x675.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn57.androidauthority.net/wp-content/uploads/2019/11/the-lion-king-1200x675.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn57.androidauthority.net/wp-content/uploads/2019/11/the-lion-king-1200x675.jpg'/>
-                </Wrap>
-                <Wrap>
-                    <img src='https://cdn57.androidauthority.net/wp-content/uploads/2019/11/the-lion-king-1200x675.jpg'/>
-                </Wrap>
+                {
+                    movies.map(movie=>
+                    <Wrap key={movie.id}>
+                        <Link to={`/detail/${movie.id}`}>
+                            <img src={movie.cardImg}/>
+                        </Link>
+                    </Wrap>)
+                }
             </Content>
         </Container>
     )
@@ -82,6 +45,7 @@ const Wrap = styled.div`
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 5px;
     }
     box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
     rgb(0 0 0 / 73%) 0px 16px 10px -10px;
