@@ -1,0 +1,33 @@
+type Query {
+  aboutMessage: [Message!]!
+  aboutRooms: [Room!]!
+  aboutRoom(roomID: RoomInput!): Room!
+}
+type Room {
+  id: String!
+  name: String!
+  lastMessage: String!
+}
+input RoomInput {
+  id: String!
+}
+input RoomInputs {
+  name: String!
+  lastMessage: String!
+}
+type Message {
+  message: String
+  name: String
+  timestamp: String
+  received: Boolean
+}
+input MessageInputs {
+  message: String!
+  name: String!
+  timestamp: String!
+  received: Boolean = false
+}
+type Mutation {
+  newMessage(newMessage: MessageInputs!): Message!
+  newRoom(newRoom: RoomInputs!): Room!
+}

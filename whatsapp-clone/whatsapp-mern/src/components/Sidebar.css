@@ -1,0 +1,79 @@
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    flex: 0.35;
+}
+.sidebar__header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 1px solid lightgray;
+}
+.sidebar__header > .MuiAvatar-root {
+    cursor: pointer;
+}
+.sidebar__headerRight{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+.sidebar__search{
+    display: flex;
+    align-items: center;
+    background-color: #f6f6f6;
+    height: 39px;
+    padding: 10px;
+}
+.sidebar__searchContainer{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 35px;
+    border-radius: 20px;
+}
+.sidebar__searchContainer > .MuiSvgIcon-root {
+    color: gray;
+    padding: 10px;
+}
+.sidebar__searchContainer > input {
+    border: none;
+    margin-left: 10px;
+    outline: none;
+    width: 100%;
+}
+.sidebar__addRoom > button{
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.sidebarChat__addRoomInput{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+.sidebarChat__addRoomInput > input{
+    padding: 10px;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.sidebarChat__addRoomInput > button {
+    padding: 10px;
+    border: 1px solid black;
+    width: 100px;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #dcf8c6;
+    cursor: pointer;
+}
+.sidebar__chats {
+    flex: 1;
+    background-color: white;
+    overflow-y: scroll;
+    border-bottom-left-radius: 15px;
+}
