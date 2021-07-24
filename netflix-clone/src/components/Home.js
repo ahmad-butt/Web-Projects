@@ -18,7 +18,8 @@ function Home() {
                 request.data.results[
                     Math.floor(Math.random() * request.data.results.length - 1)
                 ]
-            dispatch(setMovies(movies));
+            if(movies!==undefined)
+                dispatch(setMovies(movies));
             return request;
         }
         fetchData();

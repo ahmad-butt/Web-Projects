@@ -108,7 +108,7 @@ const Content = styled.div`
         margin-bottom: 10px;
     }
 `
-const InputForm = styled.div`
+const InputForm = styled.form`
     display: flex;
     flex-direction: column;
     width: 400px;

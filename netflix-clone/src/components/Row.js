@@ -3,15 +3,18 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import './Row.css'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Row(props) {
 
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovie] = useState([]);
+
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         async function fetchData() {
             const request = await axios.get(props.fetchURL);
-            setMovies(request.data.results);
+            setMovie(request.data.results);
             return request;
         }
         fetchData();
@@ -24,7 +27,7 @@ function Row(props) {
                 <div>
                     {
                         movies.map(movie => (
-                            <Link to={`/detail`}><img src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}/></Link>
+                            <Link key={movie?.id} to={`/detail/${movie.id}`}><img src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}/></Link>
                         ))
                     }
                 </div>

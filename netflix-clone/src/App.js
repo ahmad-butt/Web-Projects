@@ -18,9 +18,9 @@ function App() {
       <Router>
         <Switch>
           <Route path='/home'>
-            <Home />
+            <Home />  
           </Route>
-          <Route path='/detail'>
+          <Route path='/detail/:id'>
             <Detail />
           </Route>
           <Route path='/signup'>
