@@ -1,0 +1,33 @@
+enum StatusType {
+    New
+    Assigned
+    Fixed
+    Closed
+}
+
+type Issue {
+    _id: ID!
+    id: Int!
+    title: String!
+    status: StatusType!
+    owner: String!
+    effort: Int
+    created: String!
+    due: String
+}
+
+input IssueInputs {
+    title: String
+    status: StatusType = New
+    owner: String
+    effort: Int
+    due: String
+}
+
+type Query {
+    issueList: [Issue!]!
+}
+
+type Mutation {
+    setIssueAdd(issue: IssueInputs!) : Issue!
+}
