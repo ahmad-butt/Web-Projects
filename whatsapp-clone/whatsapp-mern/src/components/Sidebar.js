@@ -10,6 +10,9 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SidebarChat from "./SidebarChat";
+import { setLogout } from "../features/user/userSlice";
+import { auth } from "../firebase";
+import { useDispatch } from "react-redux";
 
 //Material-UI modal style-class
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +34,14 @@ function Sidebar() {
   const [open, setOpen] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");
   const [rooms, setRooms] = useState([]);
+  const dispatch = useDispatch();
+
+  const logout = (event)=>{
+    event.preventDefault();
+    auth.signOut().then(
+      dispatch(setLogout())
+    )
+  }
 
   const handleNewRoomName = (event) => {
     event.preventDefault();
@@ -108,7 +119,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG9ncmFwaHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" />
+        <Avatar onClick={logout} src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG9ncmFwaHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" />
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLargeIcon />

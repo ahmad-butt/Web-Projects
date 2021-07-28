@@ -5,6 +5,8 @@ import MicIcon from "@material-ui/icons/Mic";
 import "./Chat.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUsername } from "../features/user/userSlice";
 
 function Chat() {
   const [messageData, setMessageData] = useState([]);
@@ -72,10 +74,12 @@ function Chat() {
     }
   };
 
+  const username = useSelector(selectUsername);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newMessageToAdd = {
-      name: "Ahmad Butt",
+      name: username,
       message: newMessage,
       timestamp: new Date().toLocaleTimeString(),
       received: true,
