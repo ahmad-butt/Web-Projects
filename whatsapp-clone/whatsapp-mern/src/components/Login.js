@@ -9,22 +9,11 @@ import logo from '../whatsapp.png'
 function Login() {
   const dispatch = useDispatch();
 
-  const signInWithGoogle = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        let user = result.user;
-        dispatch(
-          setUserInfo({
-            user: user.emailVerified,
-            username: user.displayName,
-            email: user.email,
-          })
-        );
-      })
-      .catch((err) => {
+  const signInWithGoogle = (event) => {
+      event.preventDefault();
+      auth.signInWithPopup(provider).catch((err)=>{
         alert(err.message);
-      });
+      })
   };
 
   return (

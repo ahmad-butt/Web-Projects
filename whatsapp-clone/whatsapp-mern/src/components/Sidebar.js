@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Sidebar() {
+function Sidebar(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");
@@ -119,7 +119,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar onClick={logout} src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG9ncmFwaHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" />
+        <Avatar onClick={logout} src={props.profilePicture} />
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLargeIcon />

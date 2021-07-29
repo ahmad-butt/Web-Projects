@@ -1,11 +1,11 @@
 type Query {
-  aboutMessage: [Message!]!
   aboutRooms: [Room!]!
   aboutRoom(roomID: RoomInput!): Room!
 }
 type Room {
   id: String!
   name: String!
+  messages: [Message]
   lastMessage: String!
 }
 input RoomInput {
@@ -28,6 +28,6 @@ input MessageInputs {
   received: Boolean = false
 }
 type Mutation {
-  newMessage(newMessage: MessageInputs!): Message!
+  newMessage(newMessage: MessageInputs!, roomID: RoomInput!): Message!
   newRoom(newRoom: RoomInputs!): Room!
 }

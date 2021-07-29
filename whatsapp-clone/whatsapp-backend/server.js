@@ -11,7 +11,7 @@ const app = express();
 
 //DB config 
 
-const dbURL = process.env.DB_URL || 'mongodb://localhost/messages';
+const dbURL = process.env.DB_URL || 'mongodb://localhost/rooms';
 let db;
 async function connectToDB() {
     const client = new MongoClient(dbURL, {useNewUrlParser: true});
@@ -21,22 +21,21 @@ async function connectToDB() {
 }
 
 //GraphQL
-const newMessage = async (_,{newMessage}) => {
-    const result = await db.collection('messages').insertOne(newMessage);
-    const savedMessage = await db.collection('messages').findOne({_id: result.insertedId});
+const newMessage = async (_,{newMessage, roomID}) => {
+    const result = await db.collection('rooms').find({id: roomID.id}).toArray();
+    const tempArr = result[0].messages;
+    tempArr.push(newMessage);
+    await db.collection('rooms').updateOne({id: roomID.id},{$set: {'messages': tempArr}});
+    const savedMessage = await db.collection('rooms').findOne({id: roomID.id});
     return savedMessage;
-}
-
-const aboutMessage = async ()=>{
-    const messages = await db.collection('messages').find({}).toArray();
-    return messages;
 }
 
 const newRoom = async (_,{newRoom}) => {
     const result = await db.collection('rooms').insertOne(newRoom);
     await db.collection('rooms').updateOne({_id: result.insertedId},{$set: {'id':result.insertedId.toString()}});
+    db.collection('rooms').updateOne({_id: result.insertedId}, {$set: {'messages': []}});
     const savedMessage = await db.collection('rooms').findOne({_id: result.insertedId});
-    return savedMessage;
+    return savedMessage.message;
 }
 
 const aboutRooms = async ()=>{
@@ -52,7 +51,6 @@ const aboutRoom = async (_,{roomID})=>{
 
 const resolvers = {
     Query : {
-        aboutMessage,
         aboutRooms,
         aboutRoom,
     },

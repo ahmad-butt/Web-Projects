@@ -16,10 +16,10 @@ function Chat() {
 
   useEffect(() => {
     if (roomID) {
-      async function fetchingRoomData(){
+      async function fetchingRoomData() {
         const id = {
-          id: roomID.toString()
-        }
+          id: roomID.toString(),
+        };
         const query = `
         query getRoomData($id: RoomInput!) {
           aboutRoom(roomID: $id){
@@ -35,13 +35,13 @@ function Chat() {
           body: JSON.stringify({ query, variables: { id } }),
         });
         const result = await response.json();
-        if(result.data!==null) {
+        if (result.data !== null) {
           setRoomName(result.data.aboutRoom.name);
         } else {
-          setRoomName('');
+          setRoomName("");
         }
       }
-      fetchingRoomData()
+      fetchingRoomData();
     }
   }, [roomID]);
 
@@ -50,10 +50,10 @@ function Chat() {
     setNewMessage(event.target.value);
   };
 
-  const createNewMessage = async (newMessage) => {
+  const createNewMessage = async (newMessage, roomID) => {
     const query = `
-            mutation addMessage($newMessage: MessageInputs!) {
-                newMessage(newMessage: $newMessage) {
+            mutation addMessage($newMessage: MessageInputs!, $roomID: RoomInput!) {
+                newMessage(newMessage: $newMessage, roomID: $roomID) {
                     message
                     name
                     timestamp
@@ -64,7 +64,7 @@ function Chat() {
     const response = await fetch("http://localhost:2000/graphql", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, variables: { newMessage } }),
+      body: JSON.stringify({ query, variables: { newMessage, roomID } }),
     });
 
     const result = await response.json();
@@ -84,36 +84,48 @@ function Chat() {
       timestamp: new Date().toLocaleTimeString(),
       received: true,
     };
-    createNewMessage(newMessageToAdd);
+    const idOfRoomInWhichInsertingNewMessage = {
+      id: roomID.toString(),
+    }
+    createNewMessage(newMessageToAdd, idOfRoomInWhichInsertingNewMessage);
     setNewMessage("");
   };
 
   const loadMessages = async () => {
+    let id;
+    if(roomID) {
+      id = {
+        id: roomID.toString(),
+      };
+    } else {
+      id = {
+        id: "tempID1"
+      }
+    }
     const query = `
-            query{
-                aboutMessage{
-                    name
-                    message
-                    timestamp
-                    received
-                }
-            }
-        `;
+    query getRoomData($id: RoomInput!) {
+      aboutRoom(roomID: $id){
+        messages {
+          message
+          received
+          timestamp
+          name
+        }
+      }
+    }
+    `;
     const response = await fetch("http://localhost:2000/graphql", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, variables: { id } }),
     });
-
     const result = await response.json();
 
-    setMessageData(result.data.aboutMessage);
-
-    // console.log(result);
+    setMessageData(result.data.aboutRoom.messages);
   };
   useEffect(() => {
     loadMessages();
-  }, []);
+  }, [roomID]);
   return (
     <div className="chat">
       <div className="chat__header">
@@ -135,20 +147,25 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
-        {messageData.map((message, index) => {
-          return (
-            <p
-              key={index}
-              className={`chat__message ${
-                message.received && "chat__receiver"
-              }`}
-            >
-              <span className="chat__name">{message.name}</span>
-              {message.message}
-              <span className="chat__timestamp">{message.timestamp}</span>
-            </p>
-          );
-        })}
+        {
+          messageData ?
+          messageData.map((message, index) => {
+            return (
+              <p
+                key={index}
+                className={`chat__message ${
+                  message.received && "chat__receiver"
+                }`}
+              >
+                <span className="chat__name">{message.name}</span>
+                {message.message}
+                <span className="chat__timestamp">{message.timestamp}</span>
+              </p>
+            );
+          }) : (
+            <p></p>
+          )
+        }
       </div>
       <div className="chat__footer">
         <InsertEmoticon />
