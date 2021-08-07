@@ -2,35 +2,17 @@ db.rooms.remove({});
 
 const tempRooms = [
     {
-        id: 'tempID1',
-        name: 'React Hub',
+        id: 'Welcome Page',
+        name: 'Welcome Here',
         messages: [
             {
-                name: "Ahmad Butt",
-                message: "Hello World",
-                timestamp: new Date().toLocaleTimeString(),
+                name: "Whatsapp-Clone",
+                message: "Welcome Here Everyone. This is a Whatsapp-Clone where you can create communities and can chat with users all around the globe. Create Room of any interesting topic or start chatting in already existing rooms. Enjoy😄😄.",
+                timestamp: "",
                 received: true
-            },
-            {
-                name: "Babar Azam",
-                message: "Hello Ahmad Butt",
-                timestamp: new Date().toLocaleTimeString(),
-                received: false
-            },
+            }
         ],
-        lastMessage: 'Last message of React Hub room'
-    },
-    {
-        id: 'tempID2',
-        name: 'Web Developers',
-        messages: [],
-        lastMessage: 'Last message of Web Developers room'
-    },
-    {
-        id: 'tempID3',
-        name: 'Bad Boys',
-        messages: [],
-        lastMessage: 'Hahahahah Nice....'
+        lastMessage: 'Welcome Here Everyone.'
     }
 ]
 

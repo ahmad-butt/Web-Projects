@@ -1,14 +1,10 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { auth, provider } from "../firebase";
-import { useDispatch } from "react-redux";
 import "./Login.css";
-import { setUserInfo } from "../features/user/userSlice";
 import logo from '../whatsapp.png'
 
 function Login() {
-  const dispatch = useDispatch();
-
   const signInWithGoogle = (event) => {
       event.preventDefault();
       auth.signInWithPopup(provider).catch((err)=>{

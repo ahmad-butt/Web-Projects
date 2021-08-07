@@ -12,7 +12,8 @@ import Fade from "@material-ui/core/Fade";
 import SidebarChat from "./SidebarChat";
 import { setLogout } from "../features/user/userSlice";
 import { auth } from "../firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCounter } from "../features/counter/counterSlice";
 
 //Material-UI modal style-class
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,7 @@ function Sidebar(props) {
     setNewRoomName(event.target.value);
   };
 
-  const fetchDataFroServer = async (query, variables = {}) => {
+  const fetchDataFromServer = async (query, variables = {}) => {
     const response = await fetch("http://localhost:2000/graphql", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,14 +72,14 @@ function Sidebar(props) {
             }
         `;
 
-    const result = await fetchDataFroServer(query);
+    const result = await fetchDataFromServer(query);
 
-    setRooms(result.data.aboutRooms);
+    setRooms(result?.data?.aboutRooms);
+
+    // dispatch(setIncrement());
   };
 
-  useEffect(() => {
-    loadRooms();
-  }, []);
+  const count = useSelector(selectCounter);
 
   const createNewRoom = async (newRoom) => {
     const query = `
@@ -89,12 +90,16 @@ function Sidebar(props) {
             }
         }
       `;
-    const result = await fetchDataFroServer(query, { newRoom });
+    const result = await fetchDataFromServer(query, { newRoom });
 
     if (result) {
       loadRooms();
     }
   };
+
+  useEffect(() => {
+    loadRooms();
+  }, [count]);
 
   const handleAddRoom = async (event) => {
     event.preventDefault();
@@ -143,9 +148,9 @@ function Sidebar(props) {
       </div>
       <div className="sidebar__chats">
           {
-              rooms.map((room)=>{
+              rooms?.map((room)=>{
                   return(
-                      <SidebarChat roomID={room.id} key={room.id} roomName={room.name} lastMessage={room.lastMessage} />
+                      <SidebarChat roomID={room.id} key={room.id} roomName={room.name} lastMessage={room.lastMessage} fetchDataFromServer={fetchDataFromServer}/>
                   )
               })
           }

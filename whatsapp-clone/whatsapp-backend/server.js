@@ -1,13 +1,18 @@
 //importing
-const { ApolloServer } = require('apollo-server-express');
-const express = require('express');
-// const mongoose = require('mongoose');
-const fs = require('fs');
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
+import {ApolloServer} from 'apollo-server-express';
+import express from 'express';
+import fs from 'fs';
+import {MongoClient} from 'mongodb';
+import { createServer } from 'http';
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { PubSub } from 'graphql-subscriptions';
 
 //app config
 const app = express();
+const httpServer = createServer(app);
+const pubsub = new PubSub();
 
 //DB config 
 
@@ -26,8 +31,9 @@ const newMessage = async (_,{newMessage, roomID}) => {
     const tempArr = result[0].messages;
     tempArr.push(newMessage);
     await db.collection('rooms').updateOne({id: roomID.id},{$set: {'messages': tempArr}});
-    const savedMessage = await db.collection('rooms').findOne({id: roomID.id});
-    return savedMessage;
+    await db.collection('rooms').findOne({id: roomID.id});
+    pubsub.publish('NEW_MESSAGE',{newMessage: newMessage});
+    return newMessage;
 }
 
 const newRoom = async (_,{newRoom}) => {
@@ -49,6 +55,12 @@ const aboutRoom = async (_,{roomID})=>{
     return room;
 }
 
+const updateLastMessage = async (_,{newMessage,roomID})=>{
+    const tempMessage = newMessage.message;
+    await db.collection('rooms').updateOne({id: roomID.id},{$set: {'lastMessage': tempMessage}});
+    return newMessage;
+}
+
 const resolvers = {
     Query : {
         aboutRooms,
@@ -56,13 +68,32 @@ const resolvers = {
     },
     Mutation : {
         newMessage,
-        newRoom
+        newRoom,
+        updateLastMessage,
+    },
+    Subscription: {
+        newMessage: {
+            subscribe: ()=>pubsub.asyncIterator(['NEW_MESSAGE'])
+        }
     }
 }
 
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
     typeDefs : fs.readFileSync('schema.graphql','utf-8'),
     resolvers,
+})
+
+const server = new ApolloServer({
+    schema
+});
+
+SubscriptionServer.create({
+    schema,
+    execute,
+    subscribe
+},{
+    server: httpServer,
+    path: server.graphqlPath
 });
 
 server.applyMiddleware({app, path:'/graphql'});
@@ -73,7 +104,7 @@ const PORT = process.env.PORT || 2000;
     try{
         await connectToDB();
         app.listen(PORT, ()=>{
-            console.log(`App started on port ${PORT}`);
+            console.log(`App started at http://localhost:${PORT}/graphql`);
         })
     } catch (err) {
         console.log(err);

@@ -2,32 +2,43 @@ type Query {
   aboutRooms: [Room!]!
   aboutRoom(roomID: RoomInput!): Room!
 }
+
 type Room {
   id: String!
   name: String!
   messages: [Message]
   lastMessage: String!
 }
+
 input RoomInput {
   id: String!
 }
+
 input RoomInputs {
   name: String!
   lastMessage: String!
 }
+
 type Message {
   message: String
   name: String
   timestamp: String
   received: Boolean
 }
+
 input MessageInputs {
   message: String!
   name: String!
   timestamp: String!
   received: Boolean = false
 }
+
 type Mutation {
-  newMessage(newMessage: MessageInputs!, roomID: RoomInput!): Message!
+  newMessage(newMessage: MessageInputs!, roomID: RoomInput!): Message
   newRoom(newRoom: RoomInputs!): Room!
+  updateLastMessage(newMessage: MessageInputs!, roomID: RoomInput!) : Message
+}
+
+type Subscription {
+  newMessage: Message!
 }
