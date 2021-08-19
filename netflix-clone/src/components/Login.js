@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { setSignIn } from '../features/user/userSlice';
 import { auth } from '../firebase';
 
 function Login() {
@@ -11,8 +9,6 @@ function Login() {
     const [password, setPassword] = useState('');
 
     const history = useHistory();
-
-    const dispatch = useDispatch();
 
     const handleEmail = (event)=>{
         setEmail(event.target.value);
@@ -24,12 +20,7 @@ function Login() {
     const signin = (event)=>{
         event.preventDefault();
         auth.signInWithEmailAndPassword(email,password)
-        .then((userDetails)=>{
-            let user = userDetails.user;
-            dispatch(setSignIn({
-                username: user.displayName,
-                email: user.email,
-            }))
+        .then(()=>{
             history.push('/home');
         })
         .catch((error)=>{

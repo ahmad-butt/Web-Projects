@@ -3,13 +3,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import './Row.css'
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 function Row(props) {
 
     const [movies, setMovie] = useState([]);
-
-    const dispatch = useDispatch();
 
     useEffect(()=>{
         async function fetchData() {
@@ -20,6 +17,11 @@ function Row(props) {
         fetchData();
     },[props.fetchURL]);
 
+    const finalizeMovieDetail = (movie)=>{
+        props.handleMovieDetail(movie);
+        console.log(movie);
+    }
+
     return (
         <Container>
             <h3>{props.title}</h3>
@@ -27,7 +29,7 @@ function Row(props) {
                 <div>
                     {
                         movies.map(movie => (
-                            <Link key={movie?.id} to={`/detail/${movie.id}`}><img src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}/></Link>
+                            <Link onClick={()=>finalizeMovieDetail(movie)} key={movie?.id} to={`/detail/${movie.id}`}><img src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}/></Link>
                         ))
                     }
                 </div>
