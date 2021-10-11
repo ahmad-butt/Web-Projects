@@ -38,7 +38,3 @@ type Mutation {
   newRoom(newRoom: RoomInputs!): Room!
   updateLastMessage(newMessage: MessageInputs!, roomID: RoomInput!) : Message
 }
-
-type Subscription {
-  newMessage: Message!
-}

@@ -8,14 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUsername } from "../features/user/userSlice";
 import { setIncrement } from "../features/counter/counterSlice";
 import "./Chat.css";
+import Pusher from 'pusher-js';
 
-function Chat() {
+function Chat(props) {
   //State Declaration
   const [messageData, setMessageData] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   let { roomID } = useParams();
   const [roomName, setRoomName] = useState("");
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    props.handleSetID(roomID);
+  },[roomID])
 
   //Selecting From Store
   const username = useSelector(selectUsername);
@@ -42,18 +47,18 @@ function Chat() {
   };
 
   //This Function Fetches Data from Server
-  const fetchDataFromServer = async (query, variables={})=>{
-    const response = await fetch('http://localhost:2000/graphql',{
+  const fetchDataFromServer = async (query, variables = {}) => {
+    const response = await fetch("http://localhost:2000/graphql", {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({query, variables})
-    })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query, variables }),
+    });
     const result = await response.json();
     return result;
-  }
+  };
 
   // This Function Updates last message in DB
-  const updateLastMessage = async(newMessage, roomID) => {
+  const updateLastMessage = async (newMessage, roomID) => {
     const query = `
     mutation setLastMessage($newMessage: MessageInputs!, $roomID: RoomInput!){
       updateLastMessage(newMessage: $newMessage, roomID: $roomID){
@@ -63,7 +68,7 @@ function Chat() {
         received
       }
     }`;
-    fetchDataFromServer(query,{newMessage,roomID})
+    fetchDataFromServer(query, { newMessage, roomID });
   };
 
   //This Function Loads Messages from DB
@@ -90,7 +95,7 @@ function Chat() {
       }
     }
     `;
-    const result = await fetchDataFromServer(query,{id});
+    const result = await fetchDataFromServer(query, { id });
 
     setMessageData(result?.data?.aboutRoom?.messages);
   };
@@ -108,7 +113,7 @@ function Chat() {
             } 
         `;
 
-    const result = await fetchDataFromServer(query,{newMessage,roomID});
+    const result = await fetchDataFromServer(query, { newMessage, roomID });
 
     if (result) {
       updateLastMessage(newMessage, roomID);
@@ -156,6 +161,22 @@ function Chat() {
     loadMessages();
   }, [roomID]);
 
+  useEffect(()=>{
+    var pusher = new Pusher('2c49e7195e6048351c01', {
+      cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('MESSAGES');
+    channel.bind('updated', (data)=> {
+      setMessageData([...messageData, data]);
+    });
+
+    return ()=>{
+      channel.unbind_all();
+      channel.unsubscribe();
+    }
+  },[messageData])
+
   return (
     <div className="chat">
       <div className="chat__header">
@@ -202,27 +223,25 @@ function Chat() {
           <p></p>
         )}
       </div>
-      {
-        !roomID || roomID==='Welcome Page' ? (
-          <p></p>
-        ) : (
-          <div className="chat__footer">
-            <InsertEmoticon />
-            <form>
-              <input
-                value={newMessage}
-                onChange={handleNewMessage}
-                type="text"
-                placeholder="Type a message"
-              />
-              <button onClick={handleSubmit} type="submit">
-                Send a message
-              </button>
-            </form>
-            <MicIcon />
-          </div>
-        )
-      }
+      {!roomID || roomID === "Welcome Page" ? (
+        <p></p>
+      ) : (
+        <div className="chat__footer">
+          <InsertEmoticon />
+          <form>
+            <input
+              value={newMessage}
+              onChange={handleNewMessage}
+              type="text"
+              placeholder="Type a message"
+            />
+            <button onClick={handleSubmit} type="submit">
+              Send a message
+            </button>
+          </form>
+          <MicIcon />
+        </div>
+      )}
     </div>
   );
 }

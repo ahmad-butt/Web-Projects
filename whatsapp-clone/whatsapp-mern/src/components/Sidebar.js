@@ -14,6 +14,7 @@ import { setLogout } from "../features/user/userSlice";
 import { auth } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCounter } from "../features/counter/counterSlice";
+import Pusher from 'pusher-js';
 
 //Material-UI modal style-class
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +38,10 @@ function Sidebar(props) {
   const [rooms, setRooms] = useState([]);
   const dispatch = useDispatch();
 
-  const logout = (event)=>{
+  const logout = (event) => {
     event.preventDefault();
-    auth.signOut().then(
-      dispatch(setLogout())
-    )
-  }
+    auth.signOut().then(dispatch(setLogout()));
+  };
 
   const handleNewRoomName = (event) => {
     event.preventDefault();
@@ -61,7 +60,42 @@ function Sidebar(props) {
     return result;
   };
 
-  const loadRooms = async () => {
+  // const loadRooms = async () => {
+  //   const query = `
+  //           query{
+  //               aboutRooms{
+  //                   id
+  //                   name
+  //                   lastMessage
+  //               }
+  //           }
+  //       `;
+
+  //   const result = await fetchDataFromServer(query);
+
+  //   setRooms(result?.data?.aboutRooms);
+  // };
+
+  // const count = useSelector(selectCounter);
+
+  const createNewRoom = async (newRoom) => {
+    const query = `
+        mutation addRomm($newRoom: RoomInputs!) {
+            newRoom(newRoom: $newRoom) {
+                name
+                lastMessage
+            }
+        }
+      `;
+    await fetchDataFromServer(query, { newRoom });
+
+    // if (result) {
+    //   loadRooms();
+    // }
+  };
+
+  useEffect(async() => {
+
     const query = `
             query{
                 aboutRooms{
@@ -76,30 +110,20 @@ function Sidebar(props) {
 
     setRooms(result?.data?.aboutRooms);
 
-    // dispatch(setIncrement());
-  };
+    var pusher = new Pusher('2c49e7195e6048351c01', {
+      cluster: 'eu'
+    });
 
-  const count = useSelector(selectCounter);
+    var channel = pusher.subscribe('NEW_ROOM');
+    channel.bind('inserted', (data)=> {
+      setRooms([...rooms, data]);
+    });
 
-  const createNewRoom = async (newRoom) => {
-    const query = `
-        mutation addRomm($newRoom: RoomInputs!) {
-            newRoom(newRoom: $newRoom) {
-                name
-                lastMessage
-            }
-        }
-      `;
-    const result = await fetchDataFromServer(query, { newRoom });
-
-    if (result) {
-      loadRooms();
+    return ()=>{
+      channel.unbind_all();
+      channel.unsubscribe();
     }
-  };
-
-  useEffect(() => {
-    loadRooms();
-  }, [count]);
+  }, [rooms]);
 
   const handleAddRoom = async (event) => {
     event.preventDefault();
@@ -147,13 +171,17 @@ function Sidebar(props) {
         <button onClick={handleOpen}>Add Room</button>
       </div>
       <div className="sidebar__chats">
-          {
-              rooms?.map((room)=>{
-                  return(
-                      <SidebarChat roomID={room.id} key={room.id} roomName={room.name} lastMessage={room.lastMessage} fetchDataFromServer={fetchDataFromServer}/>
-                  )
-              })
-          }
+        {rooms?.map((room) => {
+          return (
+            <SidebarChat
+              roomID={room.id}
+              key={room.id}
+              roomName={room.name}
+              lastMessage={room.lastMessage}
+              fetchDataFromServer={fetchDataFromServer}
+            />
+          );
+        })}
       </div>
 
       {/* Material-UI Modal */}
