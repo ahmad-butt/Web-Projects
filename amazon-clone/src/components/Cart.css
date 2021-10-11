@@ -1,0 +1,25 @@
+.emptyCart__items {
+  height: 100%;
+  display: flex;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+}
+.emptyCart__items img {
+  width: 359px;
+  height: 256px;
+}
+.emptyCart__itemsDeal {
+  margin-left: 30px;
+}
+/* @media screen and (min-width: 1024px) {
+    .footer {
+        margin-top: 254px;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .footer {
+        margin-top: 287px;
+    }
+} */

@@ -1,0 +1,57 @@
+.home {
+    margin: 0px 10px;
+}
+.link {
+    color: black;
+    text-decoration: none;
+}
+.home__slider {
+    z-index: -10;
+}
+.home__background {
+    width: 100%; 
+}
+@media screen and (max-width: 1024px){
+    .home__categoryContainer-1 {
+        margin-top: -100px;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .home__categoryContainer-1 {
+        margin-top: -350px;
+    }
+}
+.home__categoryContainer-1 {
+    /* margin-top: -350px; */
+    margin-right: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+.categoryCard {
+    margin-left: 20px;
+}
+.home__signin {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+}
+.home__signinItems {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    align-items: center;
+    justify-content: center;
+}
+.home__signinItems button {
+    width: 230px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #FFC943;
+    cursor: pointer;
+}
+.home__signinItems button:hover {
+    background-color: #fdb500;
+}

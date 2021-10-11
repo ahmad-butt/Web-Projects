@@ -1,0 +1,61 @@
+@media screen and (max-width: 1024px) {
+    .menu {
+        width: 100%;
+        height: 29px;
+        background-color: #232F3E;
+        color: white;
+    }
+    .menu__items {
+        margin-left: 15px;
+        display: flex;
+    }
+    .menu__itemsMenu {
+        display: flex;
+        margin-top: 2.5px;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .menu__itemsMenu span {
+        margin-top: 2.5px;
+    }
+    .menu__itemsList {
+        margin-top: 2.5px;
+    }
+    .menu__itemsList span {
+        margin-left: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .menu {
+        width: 100%;
+        height: 39px;
+        background-color: #232F3E;
+        color: white;
+    }
+    .menu__items {
+        margin-left: 25px;
+        display: flex;
+    }
+    
+    .menu__itemsMenu {
+        display: flex;
+        margin-top: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .menu__itemsList {
+        margin-top: 5px;
+    }
+    
+    .menu__itemsList span {
+        margin-left: 25px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}

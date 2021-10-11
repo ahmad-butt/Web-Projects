@@ -1,0 +1,30 @@
+.bestSeller {
+    background-color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 285px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.bestSeller__items {
+    padding: 25px;
+}
+.bestSeller__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.bestSeller__header h3{
+    margin-right: 15px;
+}
+.bestSeller__productContainer {
+    display: flex;
+    margin-right: 10px;
+    overflow-x: scroll;
+}
+.bestSeller__product {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
