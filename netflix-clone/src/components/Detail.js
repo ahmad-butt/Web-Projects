@@ -1,25 +1,28 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Header from "./Header";
 
 function Detail(props) {
   const completeDetails = useRef(props?.movieDetail);
   const history = useHistory();
-  if(props?.movieDetail===undefined) {
-    history.push('/home')
+  if (props?.movieDetail === undefined) {
+    history.push("/home");
   }
   return (
     <Container>
-      <Logo>
-        <img src="/images/logo.png" />
-      </Logo>
+      <Header />
       <Background>
         <img
           src={`https://image.tmdb.org/t/p/original/${props?.movieDetail?.backdrop_path}`}
         />
       </Background>
       <Title>
-        <h1>{props?.movieDetail?.name ? `${props?.movieDetail?.name}` : `${props?.movieDetail?.original_title}`}</h1>
+        <h1>
+          {props?.movieDetail?.name
+            ? `${props?.movieDetail?.name}`
+            : `${props?.movieDetail?.original_title}`}
+        </h1>
       </Title>
       <PlayButtons>
         <button onClick={() => console.log(completeDetails.current)}>
@@ -86,16 +89,16 @@ const PlayButtons = styled.div`
   }
 `;
 const SubTitle = styled.div`
-    margin-left: 30px;
-    font-weight: bold;
-    color: white;
-    font-size: 15px;
-`
+  margin-left: 30px;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+`;
 const Description = styled.div`
-    display: flex;
-    max-width: 450px;
-    margin-left: 30px;
-    font-weight: bold;
-    color: white;   
-    font-size: 15px;
-`
+  display: flex;
+  max-width: 450px;
+  margin-left: 30px;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+`;
