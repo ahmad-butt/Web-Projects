@@ -94,7 +94,7 @@ const Logo = styled.img`
   object-fit: cover;
   margin-top: -18px;
   margin-left: -40px;
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     max-width: 150px;
     width: 100%;
     height: 100%;
@@ -123,7 +123,7 @@ const Content = styled.div`
     margin-left: 50px;
     margin-bottom: 10px;
   }
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     height: 500px;
     width: 300px;
     h1 {
@@ -179,7 +179,7 @@ const InputForm = styled.form`
       margin-bottom: 10px;
     }
   }
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     width: 260px;
     input {
       padding: 12px;

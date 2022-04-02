@@ -9,6 +9,7 @@ import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "./actions/userActions";
 import Cart from "./components/Cart";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,9 +17,9 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        dispatch(setUser(authUser?.displayName, authUser?.email))
+        dispatch(setUser(authUser?.displayName, authUser?.email));
       } else {
-        dispatch(setUser(null, null))
+        dispatch(setUser(null, null));
       }
     });
     return () => unsubscribe();
@@ -61,10 +62,9 @@ function App() {
           <Route path="/cart">
             <Cart />
           </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/" exact component={Home} />
         </Switch>
+        <Footer />
       </Router>
     </div>
   );

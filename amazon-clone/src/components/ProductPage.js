@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "./Footer";
 import Header from "./Header";
 import ProductCard from "./ProductCard";
 import "./ProductPage.css";
@@ -28,7 +27,6 @@ function ProductPage(props) {
             })}
           </div>
         </div>
-        <Footer className="footer" />
       </div>
     </>
   );

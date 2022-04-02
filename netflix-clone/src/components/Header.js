@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { auth } from "../firebase";
 import { useHistory } from "react-router";
@@ -22,7 +22,7 @@ function Header() {
   return (
     <Container>
       <Logo>
-        <img src="/images/logo.png" />
+        <img src="/images/logo.png" alt="netflix-logo" />
       </Logo>
       <Username>{name}</Username>
       <UserImage

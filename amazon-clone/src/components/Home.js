@@ -28,44 +28,49 @@ function Home() {
 
   return (
     <>
-    <Header />
-    <div className="home">
-      <Slider className="home__slider" {...settings}>
-        {backgroundImages.map((backgroundImage) => {
-          return (
-            <div key={backgroundImage.id}>
-              <img
-                className="home__background"
-                src={backgroundImage.img}
-                alt="background"
-              />
-            </div>
-          );
-        })}
-      </Slider>
-      <div className="home__categoryContainer-1">
-        {categories.map((category) => {
-          return (
-            <Link key={category.id} className='link' to={`/${category.categoryName}`}>
-              <CategoryCard
-                className="categoryCard"
-                categoryName={category.categoryName}
-                imageLink={category.img}
-              />
+      <Header />
+      <div className="home">
+        <Slider className="home__slider" {...settings}>
+          {backgroundImages.map((backgroundImage) => {
+            return (
+              <div key={backgroundImage.id}>
+                <img
+                  className="home__background"
+                  src={backgroundImage.img}
+                  alt="background"
+                />
+              </div>
+            );
+          })}
+        </Slider>
+        <div className="home__categoryContainer-1">
+          {categories.map((category) => {
+            return (
+              <Link
+                key={category.id}
+                className="link"
+                to={`/${category.categoryName}`}
+              >
+                <CategoryCard
+                  className="categoryCard"
+                  categoryName={category.categoryName}
+                  imageLink={category.img}
+                />
+              </Link>
+            );
+          })}
+        </div>
+        <BestSeller products={bestSellerProducts1} />
+        <div className="home__signin">
+          <div className="home__signinItems">
+            <span>See personalized recommendations</span>
+            <Link to="/login">
+              <button>Sign in</button>
             </Link>
-          );
-        })}
-      </div>
-      <BestSeller products={bestSellerProducts1} />
-      <div className="home__signin">
-        <div className="home__signinItems">
-          <span>See personalized recommendations</span>
-          <Link to='/login'><button>Sign in</button></Link>
-          <span>New Customer? Start here</span>
+            <span>New Customer? Start here</span>
+          </div>
         </div>
       </div>
-      <Footer />
-    </div>
     </>
   );
 }

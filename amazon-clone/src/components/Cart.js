@@ -6,12 +6,13 @@ import Footer from "./Footer";
 
 function Cart() {
   const count = useSelector((state) => state.product.count);
-  const cartItems = useSelector(state=>state.product.cartItems)
+  const cartItems = useSelector((state) => state.product.cartItems);
 
   return (
     <>
       <Header />
-      {count === 0 ? (
+      <div className="cart">
+        {count === 0 ? (
           <div className="emptyCart">
             <div className="emptyCart__items">
               <img
@@ -24,18 +25,16 @@ function Cart() {
               </div>
             </div>
           </div>
-      ) : (
-        <div className="cart">
-          <h1 onClick={()=>console.log(cartItems)}>{
-              cartItems.map(item=>{
-                  return (
-                      <p key={item.id}>{item.desc}</p>
-                  )
-              })
-          }</h1>
-        </div>
-      )}
-      <Footer />
+        ) : (
+          <div className="cart">
+            <h1 onClick={() => console.log(cartItems)}>
+              {cartItems.map((item) => {
+                return <p key={item.id}>{item.desc}</p>;
+              })}
+            </h1>
+          </div>
+        )}
+      </div>
     </>
   );
 }
