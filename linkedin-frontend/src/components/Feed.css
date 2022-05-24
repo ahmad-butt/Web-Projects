@@ -1,0 +1,57 @@
+.feed__createPost {
+    margin: 5px 0px 25px 20px;
+    width: 540px;
+    background-color: white;
+    height: 116px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+.feed__createPost1 {
+    margin: 5px 0px 25px 20px;
+    width: 540px;
+    background-color: white;
+    height: 160px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+.feed__createPostTop {
+    display: flex;
+    margin-top: 5px;
+}
+.feed__profilePic {
+    object-fit: contain;
+    width: 50px;
+    height: 50px;
+    border: 5px solid white;
+    border-radius: 45px;
+    margin: 5px 5px 0px 5px;
+}
+.feed__inp {
+    width: 440px !important;
+    height: 40px !important;
+    margin-top: 10px !important;
+    border-radius: 20px !important;
+    border: 1px solid gray !important;
+    padding-left: 15px !important;
+}
+.feed__inp:focus {
+    outline: none;
+}
+.feed__createPostBottom {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.feed__createPostBottom > input {
+    display: none;
+}
+.selectedImage {
+    display: flex;
+    flex-direction: column;
+    width: 540px;
+    align-items: center;
+}
+.selectedImage > progress {
+    margin-top: 5px;
+}
